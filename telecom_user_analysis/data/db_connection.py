@@ -31,12 +31,26 @@ class DatabaseConnectionPool:
         return self.connection_pool
     
     def get_connection(self):
-        pool = self.get_connection_pool()
-        return pool.getconn()
+        try:
+            pool = self.get_connection_pool()
+            conn = pool.getconn()
+            return conn
+        except psycopg2.Error as e:
+            print("Error while getting connection from pool: ", e)
+            return None
+
     
     def release_connection(self,conn):
-        pool = self.get_connection_pool()
-        if(conn):
-            pool.putconn(conn=conn)
+        if conn:
+            try:
+                pool = self.get_connection_pool()
+                pool.putconn(conn)
+            except psycopg2.Error as e:
+                print("Eror while releasing connection back to the pool: ",e)
+        
+    def reset_connection_pool(self):
+        if self.connection_pool:
+            self.connection_pool.closeall()
+        self.connection_pool = None
 
 db_connection_pool = DatabaseConnectionPool()

@@ -1,7 +1,7 @@
 import streamlit as st
-from telecom_user_analysis.data.data_loader import load_top_ten_handsets_data
-from telecom_user_analysis.models.overview_analysis import get_top_handsets
-from telecom_user_analysis.visualizations.overview_visualization import plot_top_ten_handsets
+from data.data_loader import load_top_ten_handsets_data
+from models.overview_analysis import get_top_handsets
+from visualizations.overview_visualization import plot_top_ten_handsets
 
 def user_overview_dashboard():
     st.header("User Overview Analysis")
@@ -15,4 +15,5 @@ def user_overview_dashboard():
     st.dataframe(top_handsets)
 
     fig = plot_top_ten_handsets(top_handsets=top_handsets)
+    
     st.pyplot(fig)
