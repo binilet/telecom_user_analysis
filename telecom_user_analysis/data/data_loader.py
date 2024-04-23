@@ -23,3 +23,25 @@ def load_top_ten_handsets_data():
         cur.close()
         db_connection_pool.release_connection(conn)
     return data
+
+
+def load_top_three_handset_manufactureres():
+    """
+    """
+
+    db_connection_pool.reset_connection_pool()
+    conn = db_connection_pool.get_connection()
+    try:
+        with conn.cursor() as cur:
+            query = """
+            select "Handset Manufacturer",Count("Handset Manufacturer") Count from public.xdr_data
+            group by "Handset Manufacturer"
+            order by Count desc
+            limit 3
+            """
+            cur.execute(query)
+            data = cur.fetchall()
+    finally:
+        cur.close()
+        db_connection_pool.release_connection(conn)
+    return data
