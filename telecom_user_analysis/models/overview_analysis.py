@@ -75,5 +75,24 @@ def bivariate_analysis(data):
 
      return df
 
+def variable_transformation_analysis(data):
+    df = pd.DataFrame(data=data)
+    df = handle_numerical_missing_values(df)
+    total_duration_per_user = df.groupby('')[''].sum()
+
+    #segment users into decile classes
+    decile_classes = pd.qcut(total_duration_per_user,q=5,labels=False)
+    df['decile_class'] = decile_classes
+
+    #compute total data per decile class
+    total_data_per_decile_class = df.groupby('decile_class')[['Total UL (Bytes)','Total DL (Bytes)']].sum()
+    return total_data_per_decile_class
+
+def correlation_analysis(data):
+    df = pd.DataFrame(data=data)
+    df = handle_numerical_missing_values(df)
+
+    return df.corr()
+
      
 

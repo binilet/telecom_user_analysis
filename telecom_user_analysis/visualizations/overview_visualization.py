@@ -52,6 +52,7 @@ def plot_bivariate_analysis(df):
     applications = [column for column, dtype in df.dtypes.items() if dtype == 'float64' and column != 'MSISDN/Number' and column != 'Dur. (ms)']
 
     aggregated_data = df[applications].sum()
+    print('aggregated data')
     print(aggregated_data)
 
     x = applications

@@ -106,3 +106,74 @@ def load_data_for_univariate_dispersion_analysis():
         cur.close()
         db_connection_pool.release_connection(conn)
     return data
+
+def load_variable_transformation_data():
+    """
+        selects data for variable stransformation;
+    """
+
+    db_connection_pool.reset_connection_pool()
+    conn = db_connection_pool.get_connection()
+    try:
+        with conn.cursor() as cur:
+            query = """
+            select "MSISDN/Number","Dur. (ms)","Total UL (Bytes)","Total DL (Bytes)"
+            from public.xdr_data 
+            """
+            cur.execute(query)
+            data = cur.fetchall()
+    finally:
+        cur.close()
+        db_connection_pool.release_connection(conn)
+    return data
+
+def load_correlation_data():
+    """
+    selects data for correlation analysis
+    """
+
+    db_connection_pool.reset_connection_pool()
+    conn = db_connection_pool.get_connection()
+    try:
+        with conn.cursor() as cur:
+            query = """
+            select "Social Media DL (Bytes)",
+            "Social Media UL (Bytes)","Google DL (Bytes)","Google UL (Bytes)",
+            "Email DL (Bytes)","Email UL (Bytes)","Youtube DL (Bytes)","Youtube UL (Bytes)",
+            "Netflix DL (Bytes)","Netflix UL (Bytes)","Gaming DL (Bytes)",
+            "Gaming UL (Bytes)","Other DL (Bytes)","Other UL (Bytes)"
+            from public.xdr_data 
+            """
+            cur.execute(query)
+            data = cur.fetchall()
+    finally:
+        cur.close()
+        db_connection_pool.release_connection(conn)
+    return data
+
+
+
+#the following set of queries are for user engagment metrics
+
+def load_user_engagment_metrics_data():
+    """
+    selects data for user engagment metrics
+    it returns the session frequency,the total duration and total data grouped by user
+    """
+
+    db_connection_pool.reset_connection_pool()
+    conn = db_connection_pool.get_connection()
+    try:
+        with conn.cursor() as cur:
+            query = """
+            select "MSISDN/Number" as tuser,count(*) as sessionFrequencie,sum("Dur. (ms)") as duration,sum("Total UL (Bytes)" + "Total DL (Bytes)") as totalData
+            from public.xdr_data where "MSISDN/Number" is not null
+            group by "MSISDN/Number"
+            order by sessionFrequence desc
+            """
+            cur.execute(query)
+            data = cur.fetchall()
+    finally:
+        cur.close()
+        db_connection_pool.release_connection(conn)
+    return data
