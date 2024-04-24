@@ -24,3 +24,33 @@ def handle_string_missing_values(df):
     df.fillna(modes,inplace=True)
     print(df.head(2))
     return df
+
+
+def get_working_fields():
+    return ["Handset Manufacturer","Handset Type","MSISDN/Number","Dur. (ms)","Social Media DL (Bytes)",
+                "Social Media UL (Bytes)","Google DL (Bytes)","Google UL (Bytes)",
+                "Email DL (Bytes)","Email UL (Bytes)","Youtube DL (Bytes)","Youtube UL (Bytes)",
+                "Netflix DL (Bytes)","Netflix UL (Bytes)","Gaming DL (Bytes)",
+                "Gaming UL (Bytes)","Total UL (Bytes)","Total DL (Bytes)"]
+
+def set_working_data_types():
+    return {
+    "Handset Manufacturer": str,
+    "Handset Type": str,
+    "MSISDN/Number": str,
+    "Dur. (ms)": float,
+    "Social Media DL (Bytes)": float,
+    "Social Media UL (Bytes)": float,
+    "Google DL (Bytes)": float,
+    "Google UL (Bytes)": float,
+    "Email DL (Bytes)": float,
+    "Email UL (Bytes)": float,
+    "Youtube DL (Bytes)": float,
+    "Youtube UL (Bytes)": float,
+    "Netflix DL (Bytes)": float,
+    "Netflix UL (Bytes)": float,
+    "Gaming DL (Bytes)": float,
+    "Gaming UL (Bytes)": float,
+    "Total UL (Bytes)": float,
+    "Total DL (Bytes)": float
+}

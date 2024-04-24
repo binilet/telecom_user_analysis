@@ -1,6 +1,6 @@
 import pandas as pd
 
-from utils.utils import handle_numerical_missing_values,handle_string_missing_values
+from utils.utils import handle_numerical_missing_values,handle_string_missing_values,get_working_fields,set_working_data_types
 
 
 #may be i should do data cleaning and transformation after loading to a dataframe
@@ -32,34 +32,11 @@ def get_top_five_handset_per_top_three_manufactureres(data):
 
 def calculate_univariate_dispersion(data):
     """
-        this dipersion param analysis will calculate the range,variance and std deviation for each column
+        this dipersion param analysis will calculate the mean,range,variance and std deviation for each column
     """
-    columns = ["Handset Manufacturer","Handset Type","MSISDN/Number","Dur. (ms)","Social Media DL (Bytes)",
-                "Social Media UL (Bytes)","Google DL (Bytes)","Google UL (Bytes)",
-                "Email DL (Bytes)","Email UL (Bytes)","Youtube DL (Bytes)","Youtube UL (Bytes)",
-                "Netflix DL (Bytes)","Netflix UL (Bytes)","Gaming DL (Bytes)",
-                "Gaming UL (Bytes)","Total UL (Bytes)","Total DL (Bytes)"]
-    
-    data_types = {
-    "Handset Manufacturer": str,
-    "Handset Type": str,
-    "MSISDN/Number": str,
-    "Dur. (ms)": float,
-    "Social Media DL (Bytes)": float,
-    "Social Media UL (Bytes)": float,
-    "Google DL (Bytes)": float,
-    "Google UL (Bytes)": float,
-    "Email DL (Bytes)": float,
-    "Email UL (Bytes)": float,
-    "Youtube DL (Bytes)": float,
-    "Youtube UL (Bytes)": float,
-    "Netflix DL (Bytes)": float,
-    "Netflix UL (Bytes)": float,
-    "Gaming DL (Bytes)": float,
-    "Gaming UL (Bytes)": float,
-    "Total UL (Bytes)": float,
-    "Total DL (Bytes)": float
-}
+
+    columns = get_working_fields()
+    data_types = set_working_data_types()
     
     df = pd.DataFrame(data,columns=columns).astype(data_types)
     print(df.dtypes)
@@ -67,16 +44,9 @@ def calculate_univariate_dispersion(data):
     #handle numerical missing values
     df = handle_numerical_missing_values(df).astype(data_types)
 
-    print('after numerical missing')
-    print(df.dtypes)
-
-    print(df.head(3))
-
     print('start analysis ...')
     dispersion_vals = {}
     for column in df.columns:
-        
-
         if df[column].dtype == float:
             mean = df[column].mean()
             range_val = df[column].max() - df[column].min()
@@ -90,3 +60,20 @@ def calculate_univariate_dispersion(data):
             }
         
     return (df,dispersion_vals)
+
+
+def bivariate_analysis(data):
+     """
+     prepares data for bivarate ploting
+     """
+     columns = get_working_fields()
+     data_types = set_working_data_types()
+
+     df = pd.DataFrame(data,columns=columns).astype(data_types)
+     df = handle_numerical_missing_values(df).astype(data_types)
+
+
+     return df
+
+     
+

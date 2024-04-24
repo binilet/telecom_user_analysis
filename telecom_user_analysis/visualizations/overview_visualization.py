@@ -46,3 +46,27 @@ def plot_univariance_dispersion(df):
         plt.close()
     
     return figs
+
+def plot_bivariate_analysis(df):
+    #get all application columns
+    applications = [column for column, dtype in df.dtypes.items() if dtype == 'float64' and column != 'MSISDN/Number' and column != 'Dur. (ms)']
+
+    aggregated_data = df[applications].sum()
+    print(aggregated_data)
+
+    x = applications
+    y = aggregated_data[applications]
+
+    print('printing x and y')
+    print(len(x))
+    print(x)
+    print(y)
+    
+    plt.scatter(x,y, label=applications)
+
+    plt.xlabel('Application Data Usage')
+    plt.ylabel('Total Data Usage (UL + DL)')
+    plt.title('Relationship between Applications and Total Data Usage')
+    plt.xticks(rotation=45)  # Rotate x-axis labels if needed
+    plt.tight_layout()
+    return plt.gcf()
