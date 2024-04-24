@@ -1,7 +1,8 @@
 import streamlit as st
-from data.data_loader import load_top_ten_handsets_data,load_top_three_handset_manufactureres,load_top_five_handset_per_top_three_manufactureres
-from models.overview_analysis import get_top_handsets,get_top_manufacturers,get_top_five_handset_per_top_three_manufactureres
-from visualizations.overview_visualization import plot_top_ten_handsets,plot_top_three_manufactureres,plot_top_five_handset_per_top_three_manufactureres
+from data.data_loader import load_top_ten_handsets_data,load_top_three_handset_manufactureres,load_top_five_handset_per_top_three_manufactureres,load_data_for_univariate_dispersion_analysis
+from models.overview_analysis import get_top_handsets,get_top_manufacturers,get_top_five_handset_per_top_three_manufactureres,calculate_univariate_dispersion
+from visualizations.overview_visualization import plot_top_ten_handsets,plot_top_three_manufactureres,plot_top_five_handset_per_top_three_manufactureres,plot_univariance_dispersion
+
 
 def user_overview_dashboard():
     st.header("User Overview Analytics")
@@ -10,11 +11,13 @@ def user_overview_dashboard():
     data_handsets = load_top_ten_handsets_data()
     data_manufacturers = load_top_three_handset_manufactureres()
     data_top_five_handsets = load_top_five_handset_per_top_three_manufactureres()
+    data_univariate_univariate = load_data_for_univariate_dispersion_analysis()
 
     #convert the data to dataframes
     df_top_handsets = get_top_handsets(data_handsets)
     df_top_manufactureres = get_top_manufacturers(data_manufacturers)
     df_top_five_handsets = get_top_five_handset_per_top_three_manufactureres(data_top_five_handsets)
+    df_univariate,dispersion_vals = calculate_univariate_dispersion(data_univariate_univariate)
 
 
     # Dashboard for top 10 handsets
@@ -34,4 +37,12 @@ def user_overview_dashboard():
     st.dataframe(df_top_five_handsets)
     fig_top_fives = plot_top_five_handset_per_top_three_manufactureres(top_handsets_per_manufaturere=df_top_five_handsets)
     st.pyplot(fig_top_fives)
+
+    #dashboard for univariate analysis
+    st.subheader("univariate dispersion analysis")
+    st.dataframe(dispersion_vals)
+    figs = plot_univariance_dispersion(df_univariate)
+    for fig in figs:
+        st.pyplot(fig=fig)
+
     

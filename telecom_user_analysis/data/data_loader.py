@@ -84,7 +84,7 @@ def load_top_five_handset_per_top_three_manufactureres():
     return data
 
 
-def get_data_for_univariate_dispersion_analysis():
+def load_data_for_univariate_dispersion_analysis():
     """
         selects important data for univariance dispersion analysis
     """
@@ -93,7 +93,7 @@ def get_data_for_univariate_dispersion_analysis():
     try:
         with conn.cursor() as cur:
             query = """
-            select "MSISDN/Number","Handset Manufacturer","Handset Type","Dur. (ms)","Social Media DL (Bytes)",
+            select "Handset Manufacturer","Handset Type","MSISDN/Number","Dur. (ms)","Social Media DL (Bytes)",
             "Social Media UL (Bytes)","Google DL (Bytes)","Google UL (Bytes)",
             "Email DL (Bytes)","Email UL (Bytes)","Youtube DL (Bytes)","Youtube UL (Bytes)",
             "Netflix DL (Bytes)","Netflix UL (Bytes)","Gaming DL (Bytes)",

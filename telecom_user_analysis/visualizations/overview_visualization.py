@@ -29,3 +29,20 @@ def plot_top_five_handset_per_top_three_manufactureres(top_handsets_per_manufatu
     plt.legend(title='Handset Type', bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
     return plt.gcf()
+
+def plot_univariance_dispersion(df):
+    numerical_columns = [column for column, dtype in df.dtypes.items() if dtype == 'float']
+
+    # Create box plots for each numerical column
+    figs = []
+    for column in numerical_columns:
+        plt.figure(figsize=(8, 6))
+        sns.boxplot(x=df[column].dropna())
+        plt.title(f'Box plot of {column}')
+        plt.xlabel('Values')
+        plt.ylabel(column)
+        fig = plt.gcf()  # Get the current figure
+        figs.append(fig)
+        plt.close()
+    
+    return figs
