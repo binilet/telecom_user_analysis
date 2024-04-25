@@ -35,17 +35,23 @@ def get_top_customers_per_engagment_metrics(data):
 
 
 
-def classify_customers_by_engagment(df):
+def classify_customers_by_engagment(data):
+    df = get_classification_data(data=data)
+    
+    # df = original_df.drop(columns=['tuser'])
     # Extract engagement metrics columns
     columns = ["sessionFrequencie", "duration", "totalData"]
+    columns_T = ['sessionFrequencie_T','duration_T','totalData_T']
 
     # Apply normalization to engagement metrics columns
     scaler = StandardScaler()
-    df[columns] = scaler.fit_transform(df[columns])
+    df[columns_T] = scaler.fit_transform(df[columns])
 
     # Perform k-means clustering
-    kmeans = KMeans(n_clusters=3, random_state=42)
-    df['cluster_label'] = kmeans.fit_predict(df[columns])
+    kmeans = KMeans(n_clusters=3)
 
-    # Visualize the distribution of cluster labels
-    print(df['cluster_label'].value_counts())       
+    kmeans.fit(df[columns_T])
+    
+    df['kmeans_lables'] = kmeans.labels_
+
+    return df
