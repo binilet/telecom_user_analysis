@@ -177,3 +177,31 @@ def load_user_engagment_metrics_data():
         cur.close()
         db_connection_pool.release_connection(conn)
     return data
+
+#queries for experience
+def load_user_experience_metrics_data():
+    """
+    selects data for user experience metrics
+    """
+
+    db_connection_pool.reset_connection_pool()
+    conn = db_connection_pool.get_connection()
+    try:
+        with conn.cursor() as cur:
+            query = """
+            select "MSISDN/Number",
+                    "Handset Type",
+                    "Avg RTT DL (ms)",
+                    "Avg RTT UL (ms)",
+                    "TCP DL Retrans. Vol (Bytes)",
+                    "TCP UL Retrans. Vol (Bytes)",
+                    "Avg Bearer TP DL (kbps)",
+                    "Avg Bearer TP UL (kbps)"
+                     from public.xdr_data
+            """
+            cur.execute(query)
+            data = cur.fetchall()
+    finally:
+        cur.close()
+        db_connection_pool.release_connection(conn)
+    return data
