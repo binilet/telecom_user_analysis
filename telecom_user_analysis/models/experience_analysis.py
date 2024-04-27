@@ -100,10 +100,10 @@ def distribution_tcp_per_handset(data):
 
 def experience_clustering(raw_data):
     """
-    Perform K-Means clustering on the given dataset.
+    Perform K-Means clustering on the given dataset. and returns the cluster description and the clustrres
     """
     data = get_experience_data(raw_data)
-    #data.fillna(data.mean(),inplace=True)
+    
 
     # Sum pairs of fields
     data['Total RTT'] = data["Avg RTT DL (ms)"] + data["Avg RTT UL (ms)"]
@@ -111,11 +111,11 @@ def experience_clustering(raw_data):
     data['Total Avg Bearer TP DL (kbps)'] = data["Avg Bearer TP DL (kbps)"] + data["Avg Bearer TP UL (kbps)"]
 
     # Extract relevant features for clustering
-    X = data[['Total RTT', 'Total TCP Retrans. Vol (Bytes)', 'Total Avg Bearer TP DL (kbps)']]
+    features = data[['Total RTT', 'Total TCP Retrans. Vol (Bytes)', 'Total Avg Bearer TP DL (kbps)']]
 
     # Scale the features
     scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+    X_scaled = scaler.fit_transform(features)
 
     # Perform K-Means clustering
     kmeans = KMeans(n_clusters=3, random_state=42)
@@ -148,4 +148,4 @@ def experience_clustering(raw_data):
         print("Total Avg Bearer TP DL (kbps): {:.2f}".format(cluster_desc["Total Avg Bearer TP DL (kbps)"]))
         print()
     
-    return data,cluster_df
+    return data,cluster_df,features,scaler,cluster_centers

@@ -14,7 +14,7 @@ def user_experience_dashboard():
     #convert the data to dataframes and do analysis
     df_avg_tp_per_handset = distribution_tp_per_handset(data_xperience)
     df_avg_tcp_per_handset = distribution_tcp_per_handset(data_xperience)
-    df_experience_cluster,df_description = experience_clustering(data_xperience)
+    df_experience_cluster,df_description,features,scaler,cluster_centers = experience_clustering(data_xperience)
 
     st.subheader("Average throughput per handset")
     st.dataframe(df_avg_tp_per_handset)
