@@ -13,7 +13,8 @@ def user_engagment_dashboard():
 
     #convert the data to dataframes and do analysis
     df_top_custs_per_engagment = get_top_customers_per_engagment_metrics(data_engagment)
-    df_kmeans_cluster_data,df_cluster_desc = classify_customers_by_engagment(data_engagment)
+
+    df_kmeans_cluster_data,df_cluster_desc,cluster_df,scaler,cluster_centers = classify_customers_by_engagment(data_engagment)
     #streamlit dashboard
 
     st.subheader("Engagment Per Session Frequency, Session duration and total data Metrics")
@@ -26,6 +27,7 @@ def user_engagment_dashboard():
     st.subheader("kmeans cluster of users by engagment")
     print('kmeans cluster of users by engagment')
     st.dataframe(df_cluster_desc)
+    st.dataframe(cluster_df)
     kmeans_figs = plot_kmeans_cluster(df_kmeans_cluster_data)
     st.pyplot(kmeans_figs)
 

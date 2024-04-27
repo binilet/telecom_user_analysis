@@ -34,7 +34,6 @@ def calculate_univariate_dispersion(data):
     """
         this dipersion param analysis will calculate the mean,range,variance and std deviation for each column
     """
-
     columns = get_working_fields()
     data_types = set_working_data_types()
     
@@ -89,10 +88,19 @@ def variable_transformation_analysis(data):
     return total_data_per_decile_class
 
 def correlation_analysis(data):
-    df = pd.DataFrame(data=data)
-    df = handle_numerical_missing_values(df)
+    
+    columns = get_working_fields()
+    data_types = set_working_data_types()
+    
 
-    return df.corr()
+    df = pd.DataFrame(data, columns=columns).astype(data_types)
+
+    # Assuming handle_numerical_missing_values is defined elsewhere
+    df = handle_numerical_missing_values(df).astype(data_types)
+
+    corr_df = df.iloc[:, 3:].corr()
+
+    return corr_df
 
      
 

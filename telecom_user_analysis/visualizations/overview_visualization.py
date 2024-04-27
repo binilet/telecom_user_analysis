@@ -71,3 +71,21 @@ def plot_bivariate_analysis(df):
     plt.xticks(rotation=45)  # Rotate x-axis labels if needed
     plt.tight_layout()
     return plt.gcf()
+
+def plot_correlation(corr_df):
+    plt.clf()
+    # Create a heatmap to visualize the correlations
+    plt.imshow(corr_df, cmap="bwr") # Adjust 'coolwarm' for different colormaps
+
+    # Add labels for the axes
+    plt.xticks(range(len(corr_df.columns)), corr_df.columns, rotation=45)  # Rotate x-axis labels for readability
+    plt.yticks(range(len(corr_df.columns)), corr_df.columns)
+
+    # Add colorbar to interpret color intensity as correlation strength
+    plt.colorbar()
+
+    # Set title for the plot
+    plt.title("Correlation Matrix (Excluding First 3 Columns)")
+
+    plt.tight_layout()
+    return plt.gcf()

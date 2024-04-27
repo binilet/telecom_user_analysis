@@ -28,6 +28,10 @@ def user_experience_dashboard():
 
     st.subheader("Experience Cluster")
     st.dataframe(df_description)
+    st.subheader("user count per cluster")
+    cluster_user_count_df = df_experience_cluster.groupby('Cluster').size().reset_index(name='User Count')
+    cluster_user_count_df['Cluster'] += 1  # Adjust cluster labels to start from 1
+    st.dataframe(cluster_user_count_df)
     fig = plot_experience_cluster(df_experience_cluster)
     st.pyplot(fig=fig)
 

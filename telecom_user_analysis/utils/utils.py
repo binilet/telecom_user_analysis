@@ -47,7 +47,7 @@ def set_working_data_types():
     return {
     "Handset Manufacturer": str,
     "Handset Type": str,
-    "MSISDN/Number": str,
+    "MSISDN/Number": float,
     "Dur. (ms)": float,
     "Social Media DL (Bytes)": float,
     "Social Media UL (Bytes)": float,

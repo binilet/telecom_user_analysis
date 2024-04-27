@@ -77,4 +77,4 @@ def classify_customers_by_engagment(data):
         print("Total Data: {:.2f}".format(cluster_desc["Total Data"]))
         print()
 
-    return df,cluster_df
+    return df,columns,cluster_df,scaler,cluster_centers

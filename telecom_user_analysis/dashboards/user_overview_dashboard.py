@@ -1,7 +1,7 @@
 import streamlit as st
 from data.data_loader import load_top_ten_handsets_data,load_top_three_handset_manufactureres,load_top_five_handset_per_top_three_manufactureres,load_data_for_univariate_dispersion_analysis
-from models.overview_analysis import get_top_handsets,get_top_manufacturers,get_top_five_handset_per_top_three_manufactureres,calculate_univariate_dispersion,bivariate_analysis
-from visualizations.overview_visualization import plot_top_ten_handsets,plot_top_three_manufactureres,plot_top_five_handset_per_top_three_manufactureres,plot_univariance_dispersion,plot_bivariate_analysis
+from models.overview_analysis import get_top_handsets,get_top_manufacturers,get_top_five_handset_per_top_three_manufactureres,calculate_univariate_dispersion,bivariate_analysis,correlation_analysis
+from visualizations.overview_visualization import plot_top_ten_handsets,plot_top_three_manufactureres,plot_top_five_handset_per_top_three_manufactureres,plot_univariance_dispersion,plot_bivariate_analysis,plot_correlation
 
 
 def user_overview_dashboard():
@@ -19,6 +19,7 @@ def user_overview_dashboard():
     df_top_five_handsets = get_top_five_handset_per_top_three_manufactureres(data_top_five_handsets)
     df_univariate,dispersion_vals = calculate_univariate_dispersion(data_univariate)
     df_bivariate = bivariate_analysis(data_univariate)
+    df_correlation = correlation_analysis(data_univariate)
 
 
     # Dashboard for top 10 handsets
@@ -50,5 +51,12 @@ def user_overview_dashboard():
     st.subheader("bivariate analysis")
     fig_bivariate = plot_bivariate_analysis(df_bivariate)
     st.pyplot(fig_bivariate)
+
+    #dashboard for bivariate analysis
+    st.subheader("correlation analysis")
+    st.dataframe(df_correlation)
+    fig_correlation = plot_correlation(df_correlation)
+    st.pyplot(fig_correlation)
+    
 
     

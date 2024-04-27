@@ -27,7 +27,7 @@ def main():
     if selected_page:
         pages["User Experience"]()
 
-    selected_page = st.sidebar.button("UUser Satisfaction")
+    selected_page = st.sidebar.button("User Satisfaction")
     if selected_page:
         pages["User Satisfaction"]()
 
