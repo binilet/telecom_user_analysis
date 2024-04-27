@@ -5,24 +5,31 @@ def handle_numerical_missing_values(df):
     For the sake of our analysis, we will use the mean value of the columns for the missing values.
     """
     exclude_column = "MSISDN/Number"
-    
-    # Select numerical columns excluding the MSISDN/Number we don't need it here; its a customer identifier
-    numerical_columns_to_fill = df.select_dtypes(include='float').columns.difference([exclude_column])
-    print(f'the numerical fields are: ')
-    print(numerical_columns_to_fill)
+
+    # Select numerical columns excluding the MSISDN/Number
+    numerical_columns = df.select_dtypes(include=['float64']).columns.drop(exclude_column)
+
     # Fill missing values in selected numerical columns with their means
-    df[numerical_columns_to_fill].fillna(df[numerical_columns_to_fill].mean(), inplace=True)
-    print(df.head(2))
+    df[numerical_columns] = df[numerical_columns].fillna(df[numerical_columns].mean())
+
+    # Check if there are any remaining NaN values in the DataFrame
+    if df[numerical_columns].isnull().values.any():
+        print("******There are still NaN values present in the DataFrame.******")
+    else:
+        print("All NaN values have been filled successfully.")
+
     return df
 
 def handle_string_missing_values(df):
     """
-        for string missing values we will use Replace those 
-        values with the most frequent category (mode) in the respective column
+    For string missing values, we will replace those values with the most frequent category (mode) in the respective column.
     """
-    modes = df.select_dtypes(include='object').mode().iloc[0] #gets the mode of the non-numerical values and takes the first one
-    df.fillna(modes,inplace=True)
-    print(df.head(2))
+    string_columns = df.select_dtypes(include=['object'])
+    
+    for column in string_columns:
+        mode = df[column].mode()[0]
+        df[column] = df[column].fillna(mode)
+    
     return df
 
 

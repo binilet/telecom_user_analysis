@@ -11,12 +11,21 @@ def main():
     pages = {
         "User Overview Analysis" : user_overview_dashboard,
         "User Engagement": user_engagment_dashboard,
-         "User Experience": user_experience_dashboard,
+        "User Experience": user_experience_dashboard,
         # "User Satisfaction": user_satisfaction_dashboard
     }
 
-    selected_page = st.sidebar.selectbox("Select Dashboard",list(pages.keys()))
-    pages[selected_page]()
+    selected_page = st.sidebar.button("User Overview Analysis")
+    if selected_page:
+        pages["User Overview Analysis"]()
+
+    selected_page = st.sidebar.button("User Engagement")
+    if selected_page:
+        pages["User Engagement"]()
+
+    selected_page = st.sidebar.button("User Experience")
+    if selected_page:
+        pages["User Experience"]()
 
 if __name__ == "__main__":
     main()
