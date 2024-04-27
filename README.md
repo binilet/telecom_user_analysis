@@ -33,7 +33,7 @@ This project is a comprehensive analysis of telecom user data, including user ov
 4. Run 
     streamlit run .\app.py
 
-    ![first screen](image.png)
+    ![streamlit_analysiss](image-1.png)
 
     select key component from the side bard, user overview,user engagment ...
 
