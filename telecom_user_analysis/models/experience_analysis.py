@@ -124,6 +124,7 @@ def experience_clustering(raw_data):
 
     # Analyze the clusters
     cluster_centers = scaler.inverse_transform(kmeans.cluster_centers_)  # Scale back to original values
+    
     cluster_descriptions = []
 
     for i, center in enumerate(cluster_centers):
