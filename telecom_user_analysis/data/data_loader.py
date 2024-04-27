@@ -166,7 +166,7 @@ def load_user_engagment_metrics_data():
     try:
         with conn.cursor() as cur:
             query = """
-            select "MSISDN/Number" as tuser,count(*) as sessionFrequencie,sum("Dur. (ms)") as duration,sum("Total UL (Bytes)" + "Total DL (Bytes)") as totalData
+            select "MSISDN/Number" as tuser,CAST(count(*) AS float) as sessionFrequencie,sum("Dur. (ms)") as duration,sum("Total UL (Bytes)" + "Total DL (Bytes)") as totalData
             from public.xdr_data where "MSISDN/Number" is not null
             group by "MSISDN/Number"
             order by sessionFrequencie desc

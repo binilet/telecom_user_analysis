@@ -39,9 +39,9 @@ def plot_top_ten_customers_per_engagment_metrics(top_ten_cust):
 
 def plot_kmeans_cluster(df):
     plt.clf()
-    plt.xlim(-50,80)
-    plt.ylim(-5,100)
-    plt.scatter(x=df['sessionFrequencie_T'],y=df['duration_T'],c=df['kmeans_lables'])  
+    # plt.xlim(-100,100)
+    # plt.ylim(-100,100)
+    plt.scatter(x=df['sessionFrequencie'],y=df['duration'],c=df['Cluster'])  
     plt.title('K-Means Clustering Results')
     plt.tight_layout()
 

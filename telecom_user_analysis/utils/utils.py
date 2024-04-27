@@ -1,10 +1,13 @@
 #this file will be used for utility functions including handling missing values in data frames
 
-def handle_numerical_missing_values(df):
+def handle_numerical_missing_values(df,engagment=False):
     """
     For the sake of our analysis, we will use the mean value of the columns for the missing values.
     """
     exclude_column = "MSISDN/Number"
+    if(engagment):
+        exclude_column = "tuser"
+    
 
     # Select numerical columns excluding the MSISDN/Number
     numerical_columns = df.select_dtypes(include=['float64']).columns.drop(exclude_column)

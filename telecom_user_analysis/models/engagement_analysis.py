@@ -12,8 +12,11 @@ def get_classification_data(data):
     """
         returns the dataframe for further analysis
     """
-    columns = ["tuser","sessionFrequencie","duration","totalData"]
+    columns = ['tuser','sessionFrequencie','duration','totalData']
     df = pd.DataFrame(data,columns=columns)
+
+    df = handle_numerical_missing_values(df,True)
+
     return df
 
 def get_top_ten(df,column):
@@ -32,26 +35,46 @@ def get_top_customers_per_engagment_metrics(data):
 
     return (top_ten_per_session_frequency,top_ten_per_duration,top_ten_per_totaldata)
 
-
-
-
 def classify_customers_by_engagment(data):
-    df = get_classification_data(data=data)
     
+    df = get_classification_data(data=data)
+    print(df.dtypes)
     # df = original_df.drop(columns=['tuser'])
     # Extract engagement metrics columns
-    columns = ["sessionFrequencie", "duration", "totalData"]
-    columns_T = ['sessionFrequencie_T','duration_T','totalData_T']
-
+    columns = df[['sessionFrequencie', 'duration', 'totalData']]
+    
     # Apply normalization to engagement metrics columns
     scaler = StandardScaler()
-    df[columns_T] = scaler.fit_transform(df[columns])
+    columns_scaled = scaler.fit_transform(columns)
+
 
     # Perform k-means clustering
-    kmeans = KMeans(n_clusters=3)
+    kmeans = KMeans(n_clusters=3, random_state=42)
+    kmeans.fit(columns_scaled)
+    df['Cluster'] = kmeans.labels_
 
-    kmeans.fit(df[columns_T])
+    cluster_centers = scaler.inverse_transform(kmeans.cluster_centers_)  # Scale back to original values
+    cluster_descriptions = []
+
+    for i, center in enumerate(cluster_centers):
+        description = {
+            "Cluster": i + 1,
+            "Session Frequency": center[0],
+            "Duration": center[1],
+            "Total Data": center[2]
+        }
+        cluster_descriptions.append(description)
     
-    df['kmeans_lables'] = kmeans.labels_
+    # Create DataFrame from cluster descriptions
+    cluster_df = pd.DataFrame(cluster_descriptions)
+    cluster_df.set_index("Cluster", inplace=True)
 
-    return df
+    # Print cluster descriptions
+    for cluster_desc in cluster_descriptions:
+        print("Cluster {}: ".format(cluster_desc["Cluster"]))
+        print("Session Frequency: {:.2f}".format(cluster_desc["Session Frequency"]))
+        print("Duration: {:.2f}".format(cluster_desc["Duration"]))
+        print("Total Data: {:.2f}".format(cluster_desc["Total Data"]))
+        print()
+
+    return df,cluster_df
